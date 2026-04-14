@@ -1,7 +1,7 @@
 "use client";
-import { motion } from 'framer-motion';
 import { Star, Users, ArrowRight, Code } from 'lucide-react';
 import Link from 'next/link';
+import { useInView } from './useInView';
 
 const projects = [
   {
@@ -34,6 +34,8 @@ const projects = [
 ];
 
 export default function TrendingProjects() {
+  const [ref, isVisible] = useInView();
+
   return (
     <section className="py-24 relative">
       <div className="container mx-auto px-6">
@@ -42,7 +44,7 @@ export default function TrendingProjects() {
             <h2 className="text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70">
               Trending Projects
             </h2>
-            <p className="text-lg text-white/50 max-w-2xl">
+            <p className="text-lg text-foreground/50 max-w-2xl">
               Jump into high-potential projects that are actively recruiting top talent right now.
             </p>
           </div>
@@ -52,34 +54,30 @@ export default function TrendingProjects() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" ref={ref}>
           {projects.map((project, idx) => (
-            <motion.div
+            <div
               key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.5 }}
-              className="glass-card p-8 flex flex-col h-full rounded-3xl border border-white/5 hover:border-primary/30 group"
+              className={`anim-fade-up anim-delay-${idx + 1} glass-card p-8 flex flex-col h-full rounded-3xl border border-foreground/5 hover:border-primary/30 group ${isVisible ? 'is-visible' : ''}`}
             >
               <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-semibold text-white/70">
+                <div className="flex items-center gap-2 px-3 py-1 bg-foreground/5 border border-foreground/10 rounded-full text-xs font-semibold text-foreground/70">
                   <Star className="w-3 h-3 text-yellow-500" /> actively recruiting
                 </div>
-                <div className="text-sm font-medium text-white/40 flex items-center gap-1">
+                <div className="text-sm font-medium text-foreground/40 flex items-center gap-1">
                   <Users className="w-4 h-4" /> {project.spotsFilled}/{project.spotsTotal}
                 </div>
               </div>
               
-              <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-primary transition-colors">
+              <h3 className="text-2xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
                 {project.title}
               </h3>
-              <p className="text-white/60 text-sm leading-relaxed mb-6 flex-grow">
+              <p className="text-foreground/60 text-sm leading-relaxed mb-6 flex-grow">
                 {project.description}
               </p>
 
               <div className="mb-6">
-                <p className="text-xs text-white/40 mb-2 uppercase tracking-wider font-semibold">Looking for:</p>
+                <p className="text-xs text-foreground/40 mb-2 uppercase tracking-wider font-semibold">Looking for:</p>
                 <div className="flex flex-wrap gap-2">
                   {project.LookingFor.map((role) => (
                     <span key={role} className="px-3 py-1 bg-primary/10 border border-primary/20 text-primary rounded-full text-xs font-medium">
@@ -89,14 +87,14 @@ export default function TrendingProjects() {
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-white/5 flex flex-wrap gap-2">
+              <div className="pt-6 border-t border-foreground/5 flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
-                  <span key={tag} className="flex items-center gap-1 text-xs text-white/50">
+                  <span key={tag} className="flex items-center gap-1 text-xs text-foreground/50">
                     <Code className="w-3 h-3" /> {tag}
                   </span>
                 ))}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

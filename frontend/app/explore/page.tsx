@@ -14,21 +14,21 @@ export default function Explore() {
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight mb-2 text-white">Explore Builders</h1>
-          <p className="text-white/50">Find top talent and form your ultimate team.</p>
+          <h1 className="text-4xl font-bold tracking-tight mb-2 text-foreground">Explore Builders</h1>
+          <p className="text-foreground/50">Find top talent and form your ultimate team.</p>
         </div>
         
         <div className="flex items-center gap-4 w-full md:w-auto">
           <div className="relative flex-1 md:w-80">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={18} />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/40" size={18} />
             <input 
               type="text" 
               placeholder="Search skills, roles or names..." 
-              className="w-full bg-surface border border-white/10 rounded-full py-3 pl-12 pr-4 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
+              className="w-full bg-surface border border-foreground/10 rounded-full py-3 pl-12 pr-4 text-sm text-foreground focus:outline-none focus:border-primary/50 transition-colors"
             />
           </div>
-          <button className="p-3 bg-surface border border-white/10 rounded-full hover:bg-white/5 transition-colors">
-            <Filter size={18} className="text-white/70" />
+          <button className="p-3 bg-surface border border-foreground/10 rounded-full hover:bg-foreground/5 transition-colors">
+            <Filter size={18} className="text-foreground/70" />
           </button>
         </div>
       </div>
@@ -50,18 +50,18 @@ export default function Explore() {
               </span>
             </div>
             
-            <h3 className="text-lg font-bold text-white group-hover:neon-text transition-colors">{user.name}</h3>
-            <p className="text-sm text-white/50 mb-4">{user.role} • {user.exp}</p>
+            <h3 className="text-lg font-bold text-foreground group-hover:neon-text transition-colors">{user.name}</h3>
+            <p className="text-sm text-foreground/50 mb-4">{user.role} • {user.exp}</p>
             
             <div className="flex flex-wrap gap-2 mt-auto">
               {user.skills.map(s => (
-                <span key={s} className="px-2 py-1 bg-white/5 border border-white/10 rounded max-w-max text-xs text-white/70">
+                <span key={s} className="px-2 py-1 bg-foreground/5 border border-foreground/10 rounded max-w-max text-xs text-foreground/70">
                   {s}
                 </span>
               ))}
             </div>
 
-            <button className="w-full mt-6 py-2 rounded border border-white/10 bg-white/5 hover:bg-primary hover:border-primary transition-all text-sm font-medium">
+            <button className="w-full mt-6 py-2 rounded border border-foreground/10 bg-foreground/5 hover:bg-primary hover:border-primary transition-all text-sm font-medium">
               View Profile
             </button>
           </div>

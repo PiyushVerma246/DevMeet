@@ -29,10 +29,10 @@ export default function VotingCard({ application, teamSize, onVote, currentUserI
   const hasVoted = application.votes?.some((v: any) => v.voterId === currentUserId || v.voterId?._id === currentUserId);
 
   return (
-    <div className="glass-card transform-gpu p-6 rounded-2xl border border-white/10 relative overflow-hidden bg-surface-hover/80 shadow-xl transition-all">
+    <div className="glass-card transform-gpu p-6 rounded-2xl border border-foreground/10 relative overflow-hidden bg-surface-hover/80 shadow-xl transition-all">
       <div className="flex justify-between items-start mb-5">
         <div>
-          <h4 className="text-xl font-bold text-white">{application.userId?.name || 'New Applicant'}</h4>
+          <h4 className="text-xl font-bold text-foreground">{application.userId?.name || 'New Applicant'}</h4>
           <p className="text-xs text-accent bg-accent/10 px-2 py-1 rounded inline-block mt-2 font-medium">Applied for: {application.role}</p>
         </div>
         <span className={`px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest border ${
@@ -44,29 +44,29 @@ export default function VotingCard({ application, teamSize, onVote, currentUserI
         </span>
       </div>
 
-      <div className="mb-6 bg-black/20 p-4 rounded-xl border border-white/5">
-        <div className="flex justify-between text-xs font-semibold text-white/50 mb-3 tracking-wider uppercase">
+      <div className="mb-6 bg-black/20 p-4 rounded-xl border border-foreground/5">
+        <div className="flex justify-between text-xs font-semibold text-foreground/50 mb-3 tracking-wider uppercase">
           <span>Consensus Progress</span>
           <span>{approvals}/{safeSize} Required ({Math.round(approvalPercent)}%)</span>
         </div>
-        <div className="w-full bg-white/5 rounded-full h-2.5 overflow-hidden">
+        <div className="w-full bg-foreground/5 rounded-full h-2.5 overflow-hidden">
           <div className="bg-gradient-to-r from-emerald-500 to-accent h-2.5 rounded-full transition-all duration-500" style={{ width: `${Math.min(approvalPercent, 100)}%` }}></div>
         </div>
-        <div className="text-[10px] text-white/40 mt-3 flex flex-col gap-2">
-          <div className="flex justify-between border-b border-white/5 pb-3 mb-2">
+        <div className="text-[10px] text-foreground/40 mt-3 flex flex-col gap-2">
+          <div className="flex justify-between border-b border-foreground/5 pb-3 mb-2">
             <span className="text-emerald-400">✅ {approvals} Approved</span>
             <span className="text-red-400">❌ {rejections} Rejected</span>
           </div>
           <div className="flex flex-col gap-1.5 pt-1">
-            <p className="text-white/60 mb-1 font-semibold uppercase tracking-wider text-[9px]">Team Consensus Tracker:</p>
+            <p className="text-foreground/60 mb-1 font-semibold uppercase tracking-wider text-[9px]">Team Consensus Tracker:</p>
             {application.votes?.length > 0 ? application.votes.map((v: any, idx: number) => (
-              <div key={idx} className="flex justify-between items-center bg-white/5 px-3 py-2 rounded-lg transition-colors hover:bg-white/10">
-                <span className="text-white/80 font-medium text-xs">{v.voterId?.name || v.voterName || 'Teammate'}</span>
+              <div key={idx} className="flex justify-between items-center bg-foreground/5 px-3 py-2 rounded-lg transition-colors hover:bg-foreground/10">
+                <span className="text-foreground/80 font-medium text-xs">{v.voterId?.name || v.voterName || 'Teammate'}</span>
                 <span className={`font-bold text-xs ${v.vote === 'approve' ? 'text-emerald-400' : 'text-red-400'}`}>
                   {v.vote === 'approve' ? '✅ Approved' : '❌ Rejected'}
                 </span>
               </div>
-            )) : <span className="text-white/30 italic text-xs py-2">No votes cast yet. Be the first!</span>}
+            )) : <span className="text-foreground/30 italic text-xs py-2">No votes cast yet. Be the first!</span>}
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@ export default function VotingCard({ application, teamSize, onVote, currentUserI
           </button>
         </div>
       ) : (
-        <div className="text-center text-sm font-medium text-white/50 bg-background/50 border border-white/5 py-3 rounded-xl backdrop-blur-md">
+        <div className="text-center text-sm font-medium text-foreground/50 bg-background/50 border border-foreground/5 py-3 rounded-xl backdrop-blur-md">
           {hasVoted && application.status === 'pending' ? "⏳ Action recorded. Waiting for others..." : "Voting concluded"}
         </div>
       )}

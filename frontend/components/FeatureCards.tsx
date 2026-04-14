@@ -1,6 +1,6 @@
 "use client";
-import { motion } from 'framer-motion';
 import { Users, Code2, Rocket, Briefcase, Zap, ShieldCheck } from 'lucide-react';
+import { useInView } from './useInView';
 
 const features = [
   {
@@ -36,6 +36,8 @@ const features = [
 ];
 
 export default function FeatureCards() {
+  const [ref, isVisible] = useInView();
+
   return (
     <section className="py-24 container mx-auto px-6 relative">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] -z-10" />
@@ -44,29 +46,25 @@ export default function FeatureCards() {
         <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/50 mb-4">
           The Hub for True Builders
         </h2>
-        <p className="text-white/50 max-w-2xl mx-auto">
+        <p className="text-foreground/50 max-w-2xl mx-auto">
           Finally, a centralized platform focusing on assembling squads—not submitting resumes.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" ref={ref}>
         {features.map((feature, idx) => (
-          <motion.div
+          <div
             key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ delay: idx * 0.1, duration: 0.5 }}
-            className="glass-card p-6 flex flex-col gap-4 group"
+            className={`anim-fade-up anim-delay-${idx + 1} glass-card p-6 flex flex-col gap-4 group ${isVisible ? 'is-visible' : ''}`}
           >
-            <div className="p-3 bg-white/5 rounded-xl w-fit group-hover:scale-110 transition-transform">
+            <div className="p-3 bg-foreground/5 rounded-xl w-fit group-hover:scale-110 transition-transform">
               {feature.icon}
             </div>
-            <h3 className="text-xl font-semibold text-white/90">{feature.title}</h3>
-            <p className="text-white/60 text-sm leading-relaxed">
+            <h3 className="text-xl font-semibold text-foreground/90">{feature.title}</h3>
+            <p className="text-foreground/60 text-sm leading-relaxed">
               {feature.desc}
             </p>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>

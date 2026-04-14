@@ -18,7 +18,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
     <div className="pt-32 pb-24 container mx-auto px-6 relative min-h-screen">
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 rounded-full blur-[150px] -z-10" />
 
-      <Link href="/projects" className="text-white/50 hover:text-white flex items-center gap-2 mb-8 transition-colors w-fit">
+      <Link href="/projects" className="text-foreground/50 hover:text-foreground flex items-center gap-2 mb-8 transition-colors w-fit">
         <ArrowLeft size={18} /> Back to Projects
       </Link>
 
@@ -32,27 +32,27 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
                 </span>
               )}
             </div>
-            <h1 className="text-5xl font-extrabold text-white mb-4 tracking-tight">{project.title}</h1>
-            <p className="text-xl text-white/60 leading-relaxed">
+            <h1 className="text-5xl font-extrabold text-foreground mb-4 tracking-tight">{project.title}</h1>
+            <p className="text-xl text-foreground/60 leading-relaxed">
               {project.desc}
             </p>
           </div>
 
-          <div className="glass-card p-8 bg-surface-hover/50 rounded-[2rem] border border-white/5 shadow-2xl">
-            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <div className="glass-card p-8 bg-surface-hover/50 rounded-[2rem] border border-foreground/5 shadow-2xl">
+            <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
               <Target size={20} className="text-primary" /> Project Overview
             </h3>
-            <p className="text-white/60 mb-6 leading-relaxed">
+            <p className="text-foreground/60 mb-6 leading-relaxed">
               We're building the future of our industry and we need passionate builders. 
               The infrastructure is partially set up, and we're looking for specialists to 
               help us cross the finish line before the upcoming sprint deadline.
             </p>
 
-            <h4 className="text-sm font-semibold text-white/40 uppercase mb-4 mt-8 tracking-wider">Required Technologies</h4>
+            <h4 className="text-sm font-semibold text-foreground/40 uppercase mb-4 mt-8 tracking-wider">Required Technologies</h4>
             <div className="flex flex-wrap gap-2">
               {project.tags.map(tag => (
-                <span key={tag} className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm text-white/80 transition-colors hover:bg-white/10">
-                  <Tag size={14} className="text-white/40" /> {tag}
+                <span key={tag} className="flex items-center gap-2 px-4 py-2 bg-foreground/5 border border-foreground/10 rounded-xl text-sm text-foreground/80 transition-colors hover:bg-foreground/10">
+                  <Tag size={14} className="text-foreground/40" /> {tag}
                 </span>
               ))}
             </div>
@@ -60,25 +60,25 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
         </div>
 
         <div className="space-y-6">
-          <div className="glass-card p-8 rounded-[2rem] relative overflow-hidden border border-white/5 shadow-2xl">
+          <div className="glass-card p-8 rounded-[2rem] relative overflow-hidden border border-foreground/5 shadow-2xl">
             <div className="absolute top-0 right-0 w-48 h-48 bg-accent/20 rounded-full blur-[60px] -z-10" />
             
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
                <Users size={18} className="text-accent" /> Team Status
             </h3>
             
-            <div className="text-4xl font-extrabold text-white flex items-baseline gap-2 mb-3">
-              {project.members} <span className="text-base font-medium text-white/40">/ {project.size} Filled</span>
+            <div className="text-4xl font-extrabold text-foreground flex items-baseline gap-2 mb-3">
+              {project.members} <span className="text-base font-medium text-foreground/40">/ {project.size} Filled</span>
             </div>
             
-            <div className="w-full bg-white/10 rounded-full h-2 mb-8 overflow-hidden">
+            <div className="w-full bg-foreground/10 rounded-full h-2 mb-8 overflow-hidden">
               <div 
                 className="bg-gradient-to-r from-primary to-accent h-full rounded-full" 
                 style={{ width: `${(project.members / project.size) * 100}%` }}
               ></div>
             </div>
 
-            <h4 className="text-sm font-semibold text-white/40 uppercase mb-4 tracking-wider">Roles Searching For</h4>
+            <h4 className="text-sm font-semibold text-foreground/40 uppercase mb-4 tracking-wider">Roles Searching For</h4>
             <div className="flex flex-col gap-3 mb-10">
               {project.roles.map(role => (
                 <div key={role} className="p-4 bg-accent/5 border border-accent/20 rounded-xl text-sm font-semibold text-accent flex justify-between items-center transition-all hover:bg-accent/10">
@@ -94,7 +94,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
               className={`w-full py-4 rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 ${
                 hasApplied 
                   ? "bg-green-500/20 text-green-400 border border-green-500/50 cursor-not-allowed"
-                  : "bg-white text-black hover:scale-105 shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+                  : "bg-foreground text-background hover:scale-105 shadow-[0_0_30px_rgba(var(--shadow-rgb),0.2)]"
               }`}
             >
               {hasApplied ? (

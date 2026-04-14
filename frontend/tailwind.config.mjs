@@ -1,5 +1,7 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import colors from "tailwindcss/colors";
+
+export default {
+  darkMode: "class",
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -7,12 +9,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#0a0a0f",
-        foreground: "#ededed",
-        primary: "#6d28d9", // deep purple
-        accent: "#0ea5e9", // neon blue
-        surface: "rgba(255, 255, 255, 0.03)",
-        "surface-hover": "rgba(255, 255, 255, 0.08)"
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        surface: "var(--surface)",
+        "surface-hover": "var(--surface-hover)",
+        primary: "#10b981", // emerald-500
+        accent: "#06b6d4", // cyan-500
+        pink: colors.cyan, 
+        purple: colors.emerald, 
+        yellow: colors.teal, 
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
