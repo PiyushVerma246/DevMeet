@@ -1,7 +1,7 @@
 import express from 'express';
 import Application from '../models/Application.js';
 import Project from '../models/Project.js';
-import auth from '../middleware/auth.js';
+import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ const getTeamMembers = async (projectId) => {
 };
 
 // User applies to join a project
-router.post('/apply', auth, async (req, res) => {
+router.post('/apply', protect, async (req, res) => {
   try {
     const { projectId, role } = req.body;
     const existing = await Application.findOne({ userId: req.user.id, projectId, role });
@@ -39,7 +39,7 @@ router.post('/apply', auth, async (req, res) => {
 });
 
 // Admin/Team-only gets applications
-router.get('/project/:projectId', auth, async (req, res) => {
+router.get('/project/:projectId', protect, async (req, res) => {
   try {
     const mems = await getTeamMembers(req.params.projectId);
     if (!mems.includes(req.user.id)) {
@@ -58,7 +58,7 @@ router.get('/project/:projectId', auth, async (req, res) => {
 });
 
 // Vote on an application
-router.post('/:id/vote', auth, async (req, res) => {
+router.post('/:id/vote', protect, async (req, res) => {
   try {
     const { vote } = req.body; // "approve" or "reject"
     if (!['approve', 'reject'].includes(vote)) {
