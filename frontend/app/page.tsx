@@ -1,4 +1,5 @@
 import Hero from '@/components/Hero';
+import ScrollCanvas from '@/components/ScrollCanvas';
 import Stats from '@/components/Stats';
 import ExplorePreview from '@/components/ExplorePreview';
 import TrendingProjects from '@/components/TrendingProjects';
@@ -12,6 +13,7 @@ export default function Home() {
     <div className="flex flex-col">
       <Hero />
       <Stats />
+      <ScrollCanvas />
       <ExplorePreview />
       <TrendingProjects />
       <HackathonPreview />
