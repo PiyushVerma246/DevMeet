@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { CheckCircle, XCircle, FolderGit2, Zap } from 'lucide-react';
 
 // Expected props:
 // application: The application object returned from the API
@@ -28,12 +28,32 @@ export default function VotingCard({ application, teamSize, onVote, currentUserI
   
   const hasVoted = application.votes?.some((v: any) => v.voterId === currentUserId || v.voterId?._id === currentUserId);
 
+  const isHackathon = application.applicationType === 'hackathon';
+  const destinationName = application.projectName || application.hackathonName || 'Unknown Destination';
+
   return (
     <div className="glass-card transform-gpu p-6 rounded-2xl border border-foreground/10 relative overflow-hidden bg-surface-hover/80 shadow-xl transition-all">
+
+      {/* ── Destination context banner ── */}
+      <div className={`flex items-center gap-2 mb-4 px-3 py-2 rounded-xl border text-xs font-semibold ${
+        isHackathon
+          ? 'bg-pink-500/10 border-pink-500/20 text-pink-300'
+          : 'bg-indigo-500/10 border-indigo-500/20 text-indigo-300'
+      }`}>
+        {isHackathon
+          ? <Zap size={13} className="fill-pink-400 text-pink-400 shrink-0" />
+          : <FolderGit2 size={13} className="shrink-0" />
+        }
+        <span className="text-foreground/40 font-normal">
+          {isHackathon ? 'Hackathon Application →' : 'Project Application →'}
+        </span>
+        <span className="font-bold text-foreground/80 truncate">{destinationName}</span>
+      </div>
+
       <div className="flex justify-between items-start mb-5">
         <div>
           <h4 className="text-xl font-bold text-foreground">{application.userId?.name || 'New Applicant'}</h4>
-          <p className="text-xs text-accent bg-accent/10 px-2 py-1 rounded inline-block mt-2 font-medium">Applied for: {application.role}</p>
+          <p className="text-xs text-accent bg-accent/10 px-2 py-1 rounded inline-block mt-2 font-medium">Role applied: {application.role}</p>
         </div>
         <span className={`px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest border ${
           application.status === 'accepted' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :

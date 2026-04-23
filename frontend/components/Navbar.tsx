@@ -37,11 +37,10 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        scrolled
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled
           ? 'py-3 bg-background/70 backdrop-blur-2xl border-b border-foreground/5 shadow-lg shadow-background/20'
           : 'py-5 bg-transparent'
-      }`}>
+        }`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
           {/* Logo */}
           <Link href="/">

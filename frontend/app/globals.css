@@ -252,6 +252,45 @@
   }
 }
 
+/* ===== SKELETON LOADING ===== */
+.skeleton-block {
+  position: relative;
+  overflow: hidden;
+  background: rgba(var(--skeleton-rgb), 0.06);
+}
+:root { --skeleton-rgb: 15, 23, 42; }
+.dark { --skeleton-rgb: 255, 255, 255; }
+
+.skeleton-block::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(var(--skeleton-rgb), 0.08) 40%,
+    rgba(var(--skeleton-rgb), 0.12) 50%,
+    rgba(var(--skeleton-rgb), 0.08) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
@@ -371,3 +410,10 @@
     radial-gradient(circle at 1px 1px, rgba(99, 102, 241, 0.15) 1px, transparent 0);
   background-size: 40px 40px;
 }
+
+/* ===== CARD EXPAND ===== */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+

@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import debounce from 'lodash.debounce';
 import JoinQueueSection from '@/components/JoinQueueSection';
 import Link from 'next/link';
 import { Search, Zap, Trophy } from 'lucide-react';
+import { HackathonCardSkeleton } from '@/components/Skeleton';
 
 const defaultCandidates = [
   { id: 1, name: "Jin Woo", role: "Full Stack Eng", avatar: "J", skills: ["Next.js", "Node", "PostgreSQL"], available: true, bio: "Looking to build something crazy in the Web3 space this weekend.", targetHackathon: { name: "ETHGlobal London", url: "/hackathons/ethglobal-london" } },
@@ -18,12 +19,18 @@ const defaultCandidates = [
 const categories = ["All", "Frontend", "Backend", "AI", "Web3", "Design"];
 
 export default function HackathonFinder() {
-  const [candidates, setCandidates] = useState(defaultCandidates);
+  const [candidates] = useState(defaultCandidates);
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
   // State for pagination
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 12;
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 800);
+    return () => clearTimeout(t);
+  }, []);
 
   // Debounced search input
   const handleSearch = useCallback(
@@ -40,14 +47,10 @@ export default function HackathonFinder() {
   // Paginated slice
   const displayedCandidates = filteredCandidates.slice(0, page * PAGE_SIZE);
 
-  // Modal handling removed; JoinQueueSection component manages its own state and submission.
-
   return (
     <div className="pt-32 pb-24 container mx-auto px-6 relative min-h-screen">
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-pink-500/10 rounded-full blur-[150px] -z-10" />
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/10 rounded-full blur-[120px] -z-10" />
-
-
 
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-16 relative">
@@ -58,7 +61,7 @@ export default function HackathonFinder() {
           Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-accent">Hackathon Squad</span>
         </h1>
         <p className="text-lg text-foreground/50 leading-relaxed mb-8">
-          These builders are explicitly looking to team up for upcoming weekend hackathons. 
+          These builders are explicitly looking to team up for upcoming weekend hackathons.&nbsp;
           Filter by required skills and recruit them before someone else does.
         </p>
 
@@ -69,12 +72,12 @@ export default function HackathonFinder() {
       <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12 glass-card p-4 rounded-2xl transform-gpu border border-foreground/5 shadow-xl bg-surface-hover/50">
         <div className="flex flex-wrap gap-2 w-full md:w-auto">
           {categories.map(cat => (
-            <button 
+            <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${
-                activeCategory === cat 
-                  ? 'bg-foreground text-background shadow-lg scale-105' 
+                activeCategory === cat
+                  ? 'bg-foreground text-background shadow-lg scale-105'
                   : 'bg-foreground/5 text-foreground/60 hover:bg-foreground/10'
               }`}
             >
@@ -82,14 +85,14 @@ export default function HackathonFinder() {
             </button>
           ))}
         </div>
-        
+
         <div className="relative w-full md:w-72">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/40" size={18} />
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={searchQuery}
             onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Search skills or names..." 
+            placeholder="Search skills or names..."
             className="w-full bg-background/50 border border-foreground/10 rounded-xl py-3 pl-12 pr-4 text-foreground text-sm focus:outline-none focus:border-pink-500/50 transition-colors shadow-inner"
           />
         </div>
@@ -97,65 +100,72 @@ export default function HackathonFinder() {
 
       {/* Candidate Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {displayedCandidates.map(candidate => (
-          <div key={candidate.id} className="glass-card p-8 rounded-3xl transform-gpu border border-foreground/5 hover:border-pink-500/30 group flex flex-col h-full relative overflow-hidden bg-surface-hover/30 shadow-2xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(236,72,153,0.15)] hover:-translate-y-1">
-            {/* Glowing accent top */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {loading
+          ? Array.from({ length: 6 }).map((_, i) => <HackathonCardSkeleton key={i} />)
+          : (
+            <>
+              {displayedCandidates.map(candidate => (
+                <div key={candidate.id} className="glass-card p-8 rounded-3xl transform-gpu border border-foreground/5 hover:border-pink-500/30 group flex flex-col h-full relative overflow-hidden bg-surface-hover/30 shadow-2xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(236,72,153,0.15)] hover:-translate-y-1">
+                  {/* Glowing accent top */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-            <div className="flex justify-between items-start mb-6">
-              <div className="flex items-center gap-4">
-                <div className="relative">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-surface to-white/10 border border-foreground/10 flex items-center justify-center text-2xl font-bold shadow-xl text-foreground group-hover:scale-110 transition-transform duration-300">
-                    {candidate.avatar}
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="flex items-center gap-4">
+                      <div className="relative">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-surface to-white/10 border border-foreground/10 flex items-center justify-center text-2xl font-bold shadow-xl text-foreground group-hover:scale-110 transition-transform duration-300">
+                          {candidate.avatar}
+                        </div>
+                        <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-[3px] border-[#0a0a0f] rounded-full"></div>
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-xl text-foreground group-hover:text-pink-400 transition-colors">{candidate.name}</h3>
+                        <p className="text-xs font-semibold text-accent/80 uppercase tracking-wider mt-1">{candidate.role}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-[3px] border-[#0a0a0f] rounded-full"></div>
+
+                  <div className="flex justify-between items-center bg-foreground/5 border border-foreground/10 p-3 rounded-xl mb-6 shadow-inner">
+                    <div className="flex items-center gap-2">
+                      <Trophy size={16} className="text-yellow-500" />
+                      <span className="text-xs font-semibold text-foreground/90">{candidate.targetHackathon.name}</span>
+                    </div>
+                    <Link href={candidate.targetHackathon.url} className="text-[10px] uppercase font-extrabold text-pink-400 hover:text-pink-300 transition-colors">
+                      Specs &rarr;
+                    </Link>
+                  </div>
+
+                  <p className="text-sm text-foreground/70 leading-relaxed mb-8 flex-grow italic bg-foreground/5 p-4 rounded-xl border border-foreground/5 relative">
+                    <span className="absolute -top-2 -left-2 text-2xl text-pink-500/20">&ldquo;</span>
+                    {candidate.bio}
+                    <span className="absolute -bottom-4 -right-2 text-2xl text-pink-500/20">&rdquo;</span>
+                  </p>
+
+                  <div className="mb-8">
+                    <h4 className="text-[10px] font-bold tracking-widest text-foreground/30 uppercase mb-3">Top Skills</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {candidate.skills.map(skill => (
+                        <span key={skill} className="px-3 py-1.5 bg-foreground/5 hover:bg-foreground/10 border border-foreground/10 rounded-lg text-xs font-semibold text-foreground/80 transition-colors">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="pt-6 border-t border-foreground/5 flex gap-3">
+                    <button className="w-full py-4 bg-pink-500/10 text-pink-500 border border-pink-500/30 rounded-xl text-sm font-bold hover:bg-pink-500/20 transition-all flex items-center justify-center gap-2 group-hover:bg-pink-500 group-hover:text-foreground group-hover:shadow-[0_0_20px_rgba(236,72,153,0.4)]">
+                      <Zap size={18} className="transition-colors group-hover:fill-white" /> Invite to Team
+                    </button>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-bold text-xl text-foreground group-hover:text-pink-400 transition-colors">{candidate.name}</h3>
-                  <p className="text-xs font-semibold text-accent/80 uppercase tracking-wider mt-1">{candidate.role}</p>
+              ))}
+              {displayedCandidates.length === 0 && (
+                <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center py-20 text-foreground/40">
+                  No candidates match your filters. Be the first to join this category!
                 </div>
-              </div>
-            </div>
-
-            <div className="flex justify-between items-center bg-foreground/5 border border-foreground/10 p-3 rounded-xl mb-6 shadow-inner">
-              <div className="flex items-center gap-2">
-                <Trophy size={16} className="text-yellow-500" />
-                <span className="text-xs font-semibold text-foreground/90">{candidate.targetHackathon.name}</span>
-              </div>
-              <Link href={candidate.targetHackathon.url} className="text-[10px] uppercase font-extrabold text-pink-400 hover:text-pink-300 transition-colors">
-                Specs &rarr;
-              </Link>
-            </div>
-
-            <p className="text-sm text-foreground/70 leading-relaxed mb-8 flex-grow italic bg-foreground/5 p-4 rounded-xl border border-foreground/5 relative">
-              <span className="absolute -top-2 -left-2 text-2xl text-pink-500/20">"</span>
-              {candidate.bio}
-              <span className="absolute -bottom-4 -right-2 text-2xl text-pink-500/20">"</span>
-            </p>
-
-            <div className="mb-8">
-              <h4 className="text-[10px] font-bold tracking-widest text-foreground/30 uppercase mb-3">Top Skills</h4>
-              <div className="flex flex-wrap gap-2">
-                {candidate.skills.map(skill => (
-                  <span key={skill} className="px-3 py-1.5 bg-foreground/5 hover:bg-foreground/10 border border-foreground/10 rounded-lg text-xs font-semibold text-foreground/80 transition-colors">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="pt-6 border-t border-foreground/5 flex gap-3">
-              <button className="w-full py-4 bg-pink-500/10 text-pink-500 border border-pink-500/30 rounded-xl text-sm font-bold hover:bg-pink-500/20 transition-all flex items-center justify-center gap-2 group-hover:bg-pink-500 group-hover:text-foreground group-hover:shadow-[0_0_20px_rgba(236,72,153,0.4)]">
-                <Zap size={18} className="transition-colors group-hover:fill-white" /> Invite to Team
-              </button>
-            </div>
-          </div>
-        ))}
-        {displayedCandidates.length === 0 && (
-          <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center py-20 text-foreground/40">
-            No candidates match your filters. Be the first to join this category!
-          </div>
-        )}
+              )}
+            </>
+          )
+        }
       </div>
     </div>
   );

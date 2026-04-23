@@ -1,10 +1,9 @@
 import Hero from '@/components/Hero';
 import ScrollCanvas from '@/components/ScrollCanvas';
 import Stats from '@/components/Stats';
-import ExplorePreview from '@/components/ExplorePreview';
-import TrendingProjects from '@/components/TrendingProjects';
-import HackathonPreview from '@/components/HackathonPreview';
+import FeaturesShowcase from '@/components/FeaturesShowcase';
 import FeatureCards from '@/components/FeatureCards';
+import HowItWorks from '@/components/HowItWorks';
 import CTA from '@/components/CTA';
 import Footer from '@/components/Footer';
 
@@ -14,10 +13,9 @@ export default function Home() {
       <Hero />
       <Stats />
       <ScrollCanvas />
-      <ExplorePreview />
-      <TrendingProjects />
-      <HackathonPreview />
+      <FeaturesShowcase />
       <FeatureCards />
+      <HowItWorks />
       <CTA />
       <Footer />
     </div>

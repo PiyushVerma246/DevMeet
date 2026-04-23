@@ -1,7 +1,8 @@
 "use client";
 import { Search, Filter, MapPin, ArrowRight, Github, Sparkles, Briefcase, Star, Code2, Users, LayoutDashboard } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { ExploreRowSkeleton } from '@/components/Skeleton';
 
 const advancedUsers = [
   { 
@@ -83,6 +84,12 @@ const advancedUsers = [
 
 export default function Explore() {
   const [activeTab, setActiveTab] = useState('All');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 800);
+    return () => clearTimeout(t);
+  }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget;
@@ -174,7 +181,9 @@ export default function Explore() {
           </div>
 
           <div className="flex flex-col gap-6">
-            {advancedUsers.map((user, idx) => (
+            {loading
+              ? Array.from({ length: 4 }).map((_, i) => <ExploreRowSkeleton key={i} />)
+              : advancedUsers.map((user, idx) => (
               <div
                 key={user.id}
                 onMouseMove={handleMouseMove}
